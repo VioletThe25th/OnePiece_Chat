@@ -3,7 +3,8 @@
 }
 
 body {
-    background-color: #333;
+    background: url("../assets/background.jpg") no-repeat;
+    background-size: cover;
     color: #fff;
     padding: 1rem;
 }
@@ -14,6 +15,14 @@ form {
     gap: 4px;
 }
 
+.send {
+    display: flex;
+    background: url("../assets/gouvernail.png") no-repeat center;
+    background-size: contain;
+    border: none;
+    width: 3rem;
+}
+
 ul {
     display: flex;
     flex-flow: column;
@@ -21,8 +30,7 @@ ul {
     list-style-type: none;
 }
 
-input,
-button {
+input{
     border-radius: 10px;
     padding: 10px;
 }

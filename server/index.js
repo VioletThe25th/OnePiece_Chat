@@ -25,8 +25,25 @@ const io = new Server(expressServer, {
 io.on('connection', socket => {
     console.log(`User ${socket.id} connected`);
 
+    // at connection - To user only
+    socket.emit('message', "Bienvenue dans la chambre du chapeau de paille");
+
+    // at connection - To others
+    socket.broadcast.emit('message', `Bienvenue au nouveau chapeau de paille : ${socket.id.substring(0,5)}`);
+
+    // Listening for message event
     socket.on('message', data => {
         console.log(data);
         io.emit('message', `${socket.id.substring(0,5)} : ${data}`);
     });
+
+    // At disconnection - to others
+    socket.on('disconnect', () => {
+        socket.broadcast.emit('message', `Le chapeau de paille ${socket.id.substring(0,5)} nous as quittés`);
+    })
+
+    // Activity
+    socket.on('activity', (name) => {
+        socket.broadcast.emit('activity', name);
+    })
 });
