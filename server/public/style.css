@@ -115,8 +115,6 @@ input, button{
     margin-top: 5px;
     color: #333;
     padding: .25rem .5rem;
-    width: 100%;
-    max-width: 250px;
 }
 
 .user-list, .room-list, .activity {
