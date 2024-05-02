@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Websockets</title>
+    <title>Vogue Merry</title>
     <link href="style.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.js"
             integrity="sha512-luMnTJZ7oEchNDZAtQhgjomP1eZefnl82ruTH/3Oj/Yu5qYtwL7+dVRccACS/Snp1lFXq188XFipHKYE75IaQQ=="
@@ -12,11 +12,27 @@
     <script defer src="app.js"></script>
 </head>
 <body>
-    <form>
-        <input type="text" placeholder="Ecrivez votre message">
-        <button class="send"></button>
-    </form>
-    <ul></ul>
-    <p class="activity"></p>
+    <main>
+        <form class="form-join">
+            <input type="text" id="name" maxlength="16" placeholder="Votre nom de pirate" size="5" required>
+            <input type="text" id="room" placeholder="Chat room" size="5" required>
+            <button id="join" type="submit">Rejoindre l'équipage</button>
+        </form>
+
+        <ul class="chat-display"></ul>
+
+        <p class="user-list"></p>
+
+        <p class="room-list"></p>
+
+        <p class="activity"></p>
+
+        <form class="form-msg">
+            <input type="text" id="message" placeholder="Ecrivez votre message" required>
+            <button type="submit" class="send"></button>
+        </form>
+        <ul></ul>
+        <p class="activity"></p>
+    </main>
 </body>
 </html>
