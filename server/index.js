@@ -35,7 +35,7 @@ io.on('connection', socket => {
     console.log(`User ${socket.id} connected`);
 
     // at connection - To user only
-    socket.emit('message', buildMsg(ADMIN, "Bienvenue dans la chambre du chapeau de paille"));
+    socket.emit('message', buildMsg(ADMIN, `Bienvenue sur l'île`));
     socket.emit('roomList', {
         rooms: getAllActiveRooms()
     })
@@ -121,7 +121,7 @@ function buildMsg(name, text) {
     return {
         name,
         text,
-        time: new Intl.DateTimeFormat('default', {
+        time: new Intl.DateTimeFormat('fr-FR', {
             hour: "numeric",
             minute: "numeric",
             second: "numeric"
