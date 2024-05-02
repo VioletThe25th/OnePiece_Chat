@@ -1,5 +1,6 @@
 const socket = io('wss://onepiecechat.onrender.com');
 
+
 const msgInput = document.querySelector('#message');
 const nameInput = document.querySelector('#name');
 const chatRoom = document.querySelector('#room');

@@ -28,7 +28,7 @@ const UsersState = {
 const io = new Server(expressServer, {
     cors: {
         origin: process.env.NODE_ENV === "production" ? false :
-            ["http://localhost:5500", "http://127.0.0.1:5500", "http://onepiecechat.onrender.com"]
+            ["http://localhost:8080", "http://127.0.0.1:8080", "http://onepiecechat.onrender.com"]
     }
 })
 io.on('connection', socket => {
@@ -36,6 +36,9 @@ io.on('connection', socket => {
 
     // at connection - To user only
     socket.emit('message', buildMsg(ADMIN, "Bienvenue dans la chambre du chapeau de paille"));
+    socket.emit('roomList', {
+        rooms: getAllActiveRooms()
+    })
 
     socket.on('enterRoom', ({name, room}) => {
 
