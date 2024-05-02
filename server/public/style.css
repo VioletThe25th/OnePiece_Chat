@@ -115,6 +115,7 @@ input, button{
     margin-top: 5px;
     color: #333;
     padding: .25rem .5rem;
+    overflow-wrap: break-word;
 }
 
 .user-list, .room-list, .activity {
