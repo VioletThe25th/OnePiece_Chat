@@ -8,14 +8,14 @@
 
 .send {
     display: flex;
-    background: url("../assets/gouvernail.png") no-repeat center;
+    background: url("./assets/gouvernail.png") no-repeat center;
     background-size: contain;
     border: none;
     width: 5rem;
 }
 
 body {
-    background: url("../assets/background5.png") no-repeat;
+    background: url("./assets/background5.png") no-repeat;
     background-size: cover;
     color: #fff;
 }
@@ -52,7 +52,7 @@ input, button{
 }
 
 .chat-display {
-    background: url("../assets/backgroundChat4.png") no-repeat center;
+    background: url("./assets/backgroundChat4.png") no-repeat center;
     background-size: cover;
     list-style-type: none;
     width: 100%;
