@@ -122,6 +122,7 @@ function buildMsg(name, text) {
         name,
         text,
         time: new Intl.DateTimeFormat('fr-FR', {
+            timeZone: "Europe/Paris",
             hour: "numeric",
             minute: "numeric",
             second: "numeric"
