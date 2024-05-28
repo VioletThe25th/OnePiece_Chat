@@ -179,3 +179,6 @@ CMD [ "node", "index.js" ]
 - We specify which node image we want to use, I used the `slim` version.
 - We copy everything 
 - We run the project
+
+## Deployment
+To deploy our project, we used render, the chat app is up on this adress : https://onepiecechat.onrender.com
