@@ -27,8 +27,10 @@ const UsersState = {
 
 const io = new Server(expressServer, {
     cors: {
-        origin: process.env.NODE_ENV === "production" ? false :
-            ["http://localhost:8080", "http://127.0.0.1:8080", "http://onepiecechat.onrender.com"]
+        origin: "*",
+        methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+        preflightContinue: false,
+        optionsSuccessStatus: 204
     }
 })
 io.on('connection', socket => {
