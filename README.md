@@ -55,6 +55,7 @@ more complete than websocket library, and it is safer.
 ````js
 io.on('connection', socket => {
     console.log(`User ${socket.id} connected`);
+})
 ````
 - When a user connects, a connection event is triggered, and a new socket object is created for that user.
 - The server logs the user's connection.
