@@ -2,6 +2,9 @@ import express from 'express';
 import { Server } from "socket.io";
 import path from 'path';
 import { fileURLToPath } from 'url';
+import './grpcServer.js'; // Import gRPC server
+import grpc from '@grpc/grpc-js';
+import protoLoader from '@grpc/proto-loader';
 
 const __fileName = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__fileName);
@@ -33,6 +36,20 @@ const io = new Server(expressServer, {
         optionsSuccessStatus: 204
     }
 })
+
+const PROTO_PATH = path.resolve('chat.proto');
+const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
+    keepCase: true,
+    longs: String,
+    enums: String,
+    defaults: true,
+    oneofs: true
+});
+const chatProto = grpc.loadPackageDefinition(packageDefinition).chat;
+
+const client = new chatProto.ChatService('localhost:5050', grpc.credentials.createInsecure());
+
+
 io.on('connection', socket => {
     console.log(`User ${socket.id} connected`);
 
@@ -107,6 +124,23 @@ io.on('connection', socket => {
         const room = getUser(socket.id)?.room;
         if (room) {
             io.to(room).emit('message', buildMsg(name, text));
+            // grpc Message
+            client.SendMessage({ user: name, message: text, room: room }, (err, response) => {
+                if (err) console.error(err);
+                else console.log('Response:', response);
+            });
+            const call = client.ReceiveMessage({});
+            call.on('data', (message) => {
+                console.log(`Received message from ${message.user}: ${message.message} in room: ${message.room}`);
+            });
+
+            call.on('end', () => {
+                console.log('Stream ended.');
+            });
+
+            call.on('error', (e) => {
+                console.error(e);
+            });
         }
     });
 
