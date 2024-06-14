@@ -10,6 +10,7 @@ The chat is usable at the URL https://onepiecechat.onrender.com
 - [Technologies](#technologies)
 - [Express](#express)
 - [Socket.io](#socketio)
+- [gRPC](#gRPC)
 - [Docker](#docker)
 
 ---
@@ -154,9 +155,80 @@ io.on('connection', socket => {
 ````
 - Listens for an ``activity`` event, which can represent various user activities.
 - Broadcasts the activity to all other users in the same room.
+
+### gRPC
+To install grPC to the project, I follow these steps :
+- Install the dependencies 
+- Create a proto file to define the gRPC services
+- Configure grpcServer
+- Update the index.js file to include grpcServer
+
+#### 1. Install the dependencies
+I installed the following package :
+````bash
+npm install @grpc/grpc-js @grpc/proto-loader
+````
+
+#### 2. Create a proto file to define the gRPC services
+I created a file named `chat.proto` in the `server` directory, here is what i put inside my proto file :
+````protobuf
+syntax = "proto3";
+
+package chat;
+
+service ChatService {
+  rpc SendMessage (ChatMessage) returns (ChatResponse);
+  rpc ReceiveMessage (Empty) returns (stream ChatMessage);
+}
+
+message ChatMessage {
+  string user = 1;
+  string message = 2;
+  string room = 3;
+}
+
+message ChatResponse {
+  string status = 1;
+}
+
+message Empty {}
+````
+
+#### 3. Configure grpcServer
+I created a `grpcServer.js` file inside the `server` repository, used to start my gRPC server
+
+#### 4. Update the index.js file to include grpcServer
+I updated my ``index.js`` to include the gRPC server and the two new functions I created in ``grpcServer.js``,
+I changed the ``socket.on(message)`` function :
+````js
+// Listening for message event
+    socket.on('message', ({name, text}) => {
+        const room = getUser(socket.id)?.room;
+        if (room) {
+            io.to(room).emit('message', buildMsg(name, text));
+            // grpc Message
+            client.SendMessage({ user: name, message: text, room: room }, (err, response) => {
+                if (err) console.error(err);
+                else console.log('Response:', response);
+            });
+            const call = client.ReceiveMessage({});
+            call.on('data', (message) => {
+                console.log(`Received message from ${message.user}: ${message.message} in room: ${message.room}`);
+            });
+
+            call.on('end', () => {
+                console.log('Stream ended.');
+            });
+
+            call.on('error', (e) => {
+                console.error(e);
+            });
+        }
+    });
+````
 ---
 ## Docker
-I use a dockerfile :
+I used a dockerfile :
 ```Dockerfile
 # Fetching the minified node image on apline linux
 FROM node:slim
